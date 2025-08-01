@@ -17,12 +17,6 @@ const contractors = [
     { id: 5, image: "https://placehold.co/112x112/DBEAFE/1E40AF?text=MB", name: "Mike Brown", title: "Lorem ipsum dolor sit amet consectetur,", href: "View Profile" },
     
 ];
-
-/**
- * PinPerspective Component
- * This renders the 3D pin, the glowing effects, and the title link.
- * The pin now animates downwards from the title.
- */
 const PinPerspective = ({ title, href, isPinned }) => {
   return (
     <motion.div
