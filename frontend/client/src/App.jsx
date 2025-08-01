@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import ContractorsPage from './pages/ContractorsPage';
 import ProjectsPage from './pages/ProjectsPage';
 import ContactPage from './pages/ContactPage';
+import About from './pages/About.jsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/contractors" element={<ContractorsPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/about" element={<About />} />
         </Routes>
         <Footer/>
         {/* We can add a <Footer /> component here later */}

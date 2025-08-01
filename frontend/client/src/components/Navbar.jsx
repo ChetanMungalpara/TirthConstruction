@@ -61,6 +61,7 @@ const Navbar = () => {
         <NavLink to="/" style={({ isActive }) => isActive ? activeLinkStyle : pasiveLinkStyle}>Home</NavLink>
         <NavLink to="/contractors" style={({ isActive }) => isActive ? activeLinkStyle : pasiveLinkStyle}>Contractors</NavLink>
         <NavLink to="/projects" style={({ isActive }) => isActive ? activeLinkStyle : pasiveLinkStyle}>Projects</NavLink>
+        <NavLink to="/about" style={({ isActive }) => isActive ? activeLinkStyle : pasiveLinkStyle}>About Us</NavLink>
         <NavLink to="/contact" style={({ isActive }) => isActive ? activeLinkStyle : pasiveLinkStyle}>Contact Us</NavLink>
       </div>
       <div className="flex items-center gap-4">
