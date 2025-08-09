@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { FaUsers, FaBuilding, FaCalendarAlt } from 'react-icons/fa';
 import { contractors, events } from './data';
+import { AnimatedTooltip } from "../ui/animated-tooltip";
+
 const AllFoundersView = ({ setSelectedEvent }) => {
     const totalProjects = useMemo(() => contractors.reduce((sum, c) => sum + c.projectsCount, 0), []);
     const combinedExperience = useMemo(() => contractors.reduce((sum, c) => sum + c.experience, 0), []);
@@ -11,9 +13,7 @@ const AllFoundersView = ({ setSelectedEvent }) => {
                  <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Our Founders</h2>
                  <p className="text-xl text-yellow-600 font-bold mt-2">The Pillars of Tirth Construction</p>
                  <div className="flex justify-center my-6">
-                    {contractors.map((c, index) => (
-                        <img key={c.id} src={c.imgSrc} alt={c.name} className="w-16 h-16 rounded-full object-cover ring-2 ring-white shadow-lg" style={{ zIndex: contractors.length - index, marginLeft: index > 0 ? '-20px' : '0' }} />
-                    ))}
+                    <AnimatedTooltip items={contractors} />
                  </div>
                  <p className="text-gray-700 mt-4 leading-relaxed text-lg max-w-3xl mx-auto">
                     Each founder brings a unique set of skills and unwavering dedication, forming the strong foundation upon which our company is built. Together, they lead with a shared vision of quality, integrity, and excellence. Click on an individual above to learn more about their specific role and expertise.

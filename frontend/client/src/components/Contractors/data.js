@@ -52,12 +52,12 @@ export const contractors = [
 ];
 
 export const projects = [
-    { id: 1, name: "Skyline Residences", type: "Residential", imgSrc: "https://placehold.co/600x400/3B82F6/FFFFFF?text=Skyline", description: "A luxury high-rise apartment complex with state-of-the-art amenities.", contractorIds: [1, 3] },
-    { id: 2, name: "Innovatech Park", type: "Commercial", imgSrc: "https://placehold.co/600x400/10B981/FFFFFF?text=Innovatech", description: "A sprawling business park designed for technology companies.", contractorIds: [2, 4] },
-    { id: 3, name: "Greenwood Estates", type: "Residential", imgSrc: "https://placehold.co/600x400/EAB308/FFFFFF?text=Greenwood", description: "An eco-friendly gated community featuring sustainable materials.", contractorIds: [1, 4] },
-    { id: 4, name: "Oceanic Trade Center", type: "Commercial", imgSrc: "https://placehold.co/600x400/EF4444/FFFFFF?text=Oceanic", description: "A modern commercial hub with office spaces and retail outlets.", contractorIds: [2, 3, 4] },
-    { id: 5, name: "Serenity Villas", type: "Residential", imgSrc: "https://placehold.co/600x400/8B5CF6/FFFFFF?text=Serenity", description: "Exclusive villas with private pools and landscaped gardens.", contractorIds: [1, 2, 3] },
-    { id: 6, name: "Apex Industrial Hub", type: "Industrial", imgSrc: "https://placehold.co/600x400/78716C/FFFFFF?text=Apex", description: "Large-scale industrial sheds and warehousing solutions.", contractorIds: [2, 4] },
+    { id: 1, name: "Skyline Residences", type: "Residential", imgSrc: "https://placehold.co/600x400/3B82F6/FFFFFF?text=Skyline", description: "A luxury high-rise apartment complex with state-of-the-art amenities.", contractorIds: [1, 3], startDate: new Date('2022-01-15'), endDate: new Date('2023-08-20') },
+    { id: 2, name: "Innovatech Park", type: "Commercial", imgSrc: "https://placehold.co/600x400/10B981/FFFFFF?text=Innovatech", description: "A sprawling business park designed for technology companies.", contractorIds: [2, 4], startDate: new Date('2021-06-01'), endDate: new Date('2022-12-10') },
+    { id: 3, name: "Greenwood Estates", type: "Residential", imgSrc: "https://placehold.co/600x400/EAB308/FFFFFF?text=Greenwood", description: "An eco-friendly gated community featuring sustainable materials.", contractorIds: [1, 4], startDate: new Date('2023-03-10'), endDate: new Date('2024-05-25') },
+    { id: 4, name: "Oceanic Trade Center", type: "Commercial", imgSrc: "https://placehold.co/600x400/EF4444/FFFFFF?text=Oceanic", description: "A modern commercial hub with office spaces and retail outlets.", contractorIds: [2, 3, 4], startDate: new Date('2020-09-01'), endDate: new Date('2022-02-15') },
+    { id: 5, name: "Serenity Villas", type: "Residential", imgSrc: "https://placehold.co/600x400/8B5CF6/FFFFFF?text=Serenity", description: "Exclusive villas with private pools and landscaped gardens.", contractorIds: [1, 2, 3], startDate: new Date('2022-11-20'), endDate: new Date('2024-01-30') },
+    { id: 6, name: "Apex Industrial Hub", type: "Industrial", imgSrc: "https://placehold.co/600x400/78716C/FFFFFF?text=Apex", description: "Large-scale industrial sheds and warehousing solutions.", contractorIds: [2, 4], startDate: new Date('2019-05-10'), endDate: new Date('2020-07-22') },
 ];
 
 export const events = [

@@ -6,7 +6,7 @@ const expertiseData = [
         title: "Residential Construction",
         description: "Crafting high-quality homes since 1995, we deliver expert craftsmanship, on-time completion, and cost-friendly solutions for every family.",
         imageUrl: "/img/Expertise/img1.jpeg",
-        link: "/projects/residential",
+        link: "/projects?category=Residential",
     },
     {
         title: "Farmhouse Projects",

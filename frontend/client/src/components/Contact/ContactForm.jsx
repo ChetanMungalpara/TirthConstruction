@@ -40,111 +40,117 @@ function ContactForm() {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
-  const [leafletLoaded, setLeafletLoaded] = useState(false);
   
-  // Ref for the map container
+  // Ref for the map container element
   const mapContainerRef = useRef(null);
-  // Ref to store the map instance
+  // Ref to store the map instance itself. This persists across re-renders.
   const mapInstanceRef = useRef(null);
 
-  // --- Effect to load Leaflet scripts ---
+  // --- REFACTORED: Unified Map Initialization Effect ---
+  // This effect handles script loading, map initialization, and cleanup.
+  // It runs only ONCE when the component mounts.
   useEffect(() => {
-    // This effect should only run once.
-    let script, cssLink;
-    if (!window.L) {
-        // Load CSS
-        cssLink = document.createElement('link');
-        cssLink.rel = 'stylesheet';
-        cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-        cssLink.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
-        cssLink.crossOrigin = '';
-        document.head.appendChild(cssLink);
-
-        script = document.createElement('script');
-        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-        script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
-        script.crossOrigin = '';
-        script.async = true;
-        
-        script.onload = () => {
-            setLeafletLoaded(true);
-        };
-        document.body.appendChild(script);
-    } else {
-        setLeafletLoaded(true);
-    }
-    
-    // Cleanup function to remove the added elements
-    return () => {
-        if (cssLink && document.head.contains(cssLink)) {
-            document.head.removeChild(cssLink);
-        }
-        if (script && document.body.contains(script)) {
-            document.body.removeChild(script);
-        }
-    };
-  }, []); // Empty dependency array ensures this runs only once.
-
-  // --- Leaflet Map Initialization ---
-  useEffect(() => {
-    // This effect depends on leafletLoaded and the map container ref.
-    if (!leafletLoaded || !mapContainerRef.current) {
+    // If the map container ref isn't attached to a DOM element, do nothing.
+    if (!mapContainerRef.current) {
         return;
     }
 
-    // Use ResizeObserver to detect when the container is ready.
-    const resizeObserver = new ResizeObserver(() => {
-        if (mapContainerRef.current && !mapInstanceRef.current) {
+    let resizeObserver;
+
+    // --- Function to Initialize the Map ---
+    // This function will be called by the ResizeObserver once the container is ready.
+    const initMap = () => {
+        // Only initialize the map if the container exists and a map instance hasn't been created yet.
+        if (window.L && mapContainerRef.current && !mapInstanceRef.current) {
             const officeLocation = [21.6024, 71.2202]; // Approx. coordinates for Amreli, Gujarat
             
-            // Initialize the map
+            // Create the map and store the instance in our ref
             const map = window.L.map(mapContainerRef.current).setView(officeLocation, 14);
             mapInstanceRef.current = map;
 
-            // Add the tile layer
+            // Add the OpenStreetMap tile layer
             window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Custom Marker
+            // Define a custom, animated marker icon
             const customMarkerIcon = window.L.divIcon({
                 html: `<div class="relative flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full shadow-lg animate-pulse">
                          <div class="w-3 h-3 bg-white rounded-full"></div>
                          <div class="absolute bottom-0 w-2 h-4 bg-blue-600" style="clip-path: polygon(50% 100%, 0 0, 100% 0);"></div>
                        </div>`,
-                className: '',
+                className: '', // Important to avoid default Leaflet styles
                 iconSize: [32, 42],
                 iconAnchor: [16, 42],
                 popupAnchor: [0, -42]
             });
 
-            // Add marker to the map
+            // Add the marker to the map
             window.L.marker(officeLocation, { icon: customMarkerIcon }).addTo(map)
                 .bindPopup("<b>Tirth Construction Head Office</b><br>Amreli, Gujarat, 365620")
                 .openPopup();
         }
-        // If map instance exists, invalidate its size to handle resizes.
+        // If a map instance already exists, just ensure its size is correct.
         if (mapInstanceRef.current) {
             mapInstanceRef.current.invalidateSize();
         }
-    });
+    };
+    
+    // --- Setup function to load scripts and start observing ---
+    const setupLeaflet = () => {
+        // A ResizeObserver waits for the container to have a size, then calls initMap.
+        // This is the key to fixing the grey map issue with animations.
+        resizeObserver = new ResizeObserver(initMap);
+        resizeObserver.observe(mapContainerRef.current);
+    };
 
-    // Start observing the map container.
-    resizeObserver.observe(mapContainerRef.current);
 
-    // Cleanup function
+    // --- Script and Stylesheet Loading ---
+    // We only load the scripts if Leaflet (window.L) isn't already available.
+    if (!window.L) {
+        // Load CSS
+        const cssLink = document.createElement('link');
+        cssLink.id = 'leaflet-css';
+        cssLink.rel = 'stylesheet';
+        cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(cssLink);
+
+        // Load Script
+        const script = document.createElement('script');
+        script.id = 'leaflet-js';
+        script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        script.async = true;
+        // When the script finishes loading, call our setup function
+        script.onload = setupLeaflet; 
+        document.body.appendChild(script);
+    } else {
+        // If Leaflet is already loaded, just set up the observer.
+        setupLeaflet();
+    }
+    
+    // --- Cleanup Function ---
+    // This function is returned by useEffect and runs when the component unmounts.
     return () => {
-        // Stop observing
-        if (mapContainerRef.current) {
+        // Stop observing the container
+        if (resizeObserver && mapContainerRef.current) {
             resizeObserver.unobserve(mapContainerRef.current);
         }
-        // Remove the map instance
+        // Destroy the map instance
         if (mapInstanceRef.current) {
             mapInstanceRef.current.remove();
             mapInstanceRef.current = null;
         }
+        // Remove the script/link tags
+        const script = document.getElementById('leaflet-js');
+        const cssLink = document.getElementById('leaflet-css');
+        if (script && document.body.contains(script)) {
+            document.body.removeChild(script);
+        }
+        if (cssLink && document.head.contains(cssLink)) {
+            document.head.removeChild(cssLink);
+        }
     };
-  }, [leafletLoaded]); // Rerun when leaflet is loaded.
+  }, []); // The empty dependency array [] ensures this effect runs only on mount and unmount.
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -253,7 +259,7 @@ function ContactForm() {
                 </motion.div>
               </motion.div>
 
-              {/* Interactive Map */}
+              {/* Interactive Map Container */}
               <motion.div 
                 className="h-64 bg-gray-200 rounded-lg mt-8 overflow-hidden shadow-inner"
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -261,6 +267,7 @@ function ContactForm() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
+                 {/* The ref is attached here. The map will be rendered inside this div. */}
                  <div ref={mapContainerRef} className="w-full h-full" />
               </motion.div>
             </motion.div>
