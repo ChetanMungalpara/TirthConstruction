@@ -60,7 +60,6 @@ function ContactForm() {
         cssLink.crossOrigin = '';
         document.head.appendChild(cssLink);
 
-        // Load JavaScript
         script = document.createElement('script');
         script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
         script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
