@@ -1,21 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { cn } from '../../lib/utils';
 
-// Utility function to merge Tailwind CSS classes
-export function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
 
 // Placeholder data for the contractors.
 const contractors = [
-    { id: 1, image: "https://placehold.co/112x112/E9D5FF/3730A3?text=JD", name: "John Doe", title: "Lorem ipsum dolor sit amet consectetur,", href: "View Profile" },
-    { id: 2, image: "https://placehold.co/112x112/D1FAE5/065F46?text=JS", name: "Jane Smith", title: "Lorem ipsum dolor sit amet consectetur,", href: "View Profile" },
-    { id: 3, image: "https://placehold.co/112x112/FEF3C7/92400E?text=AL", name: "Alex Lee", title: "Lorem ipsum dolor sit amet consectetur,", href: "View Profile" },
-    { id: 4, image: "https://placehold.co/112x112/FEE2E2/991B1B?text=ED", name: "Emily Davis", title: "Lorem ipsum dolor sit amet consectetur,", href: "View Profile" },
-    { id: 5, image: "https://placehold.co/112x112/DBEAFE/1E40AF?text=MB", name: "Mike Brown", title: "Lorem ipsum dolor sit amet consectetur,", href: "View Profile" },
-    
+    { id: 1, image: "https://placehold.co/112x112/E9D5FF/3730A3?text=JD", name: "John Doe", title: "Lorem ipsum dolor sit amet consectetur," },
+    { id: 2, image: "https://placehold.co/112x112/D1FAE5/065F46?text=JS", name: "Jane Smith", title: "Lorem ipsum dolor sit amet consectetur," },
+    { id: 3, image: "https://placehold.co/112x112/FEF3C7/92400E?text=AL", name: "Alex Lee", title: "Lorem ipsum dolor sit amet consectetur," },
+    { id: 4, image: "https://placehold.co/112x112/FEE2E2/991B1B?text=ED", name: "Emily Davis", title: "Lorem ipsum dolor sit amet consectetur," },
+    { id: 5, image: "https://placehold.co/112x112/DBEAFE/1E40AF?text=MB", name: "Mike Brown", title: "Lorem ipsum dolor sit amet consectetur," },
+
 ];
 const PinPerspective = ({ title, href, isPinned }) => {
   return (
@@ -32,7 +27,7 @@ const PinPerspective = ({ title, href, isPinned }) => {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative flex space-x-2 items-center z-10 rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10"
+            className="pointer-events-auto relative flex space-x-2 items-center z-[1000] rounded-full bg-zinc-950 py-0.5 px-4 ring-1 ring-white/10"
           >
             <span className="relative z-20 text-white text-base font-bold inline-block py-0.5">
               {title}
@@ -257,8 +252,8 @@ const ContractorsBanner = () => {
                     })}
                 </div>
                 <PinPerspective 
-                    title={activeContractor ? activeContractor.href.replace("https://", "") : ""} 
-                    href={activeContractor ? `/contractors/${activeContractor.id}` : "#"}
+                    title={activeContractor ? "View Profile" : ""} 
+                    href={activeContractor ? `contractors#/contractors/${activeContractor.id}` : "#"}
                     isPinned={isPinVisible} // Use the new delayed state
                 />
             </div>

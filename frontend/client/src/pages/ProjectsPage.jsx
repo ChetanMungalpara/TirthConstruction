@@ -49,7 +49,7 @@ const App = () => {
     }
 
     return (
-        <div className="bg-gray-50 min-h-screen font-sans">
+        <div className="bg-gray-50 min-h-screen rounded-[9.6px] font-sans">
             {pageContent}
             <style>{`
                 @keyframes fadeIn { 

@@ -6,25 +6,25 @@ const expertiseData = [
         title: "Residential Construction",
         description: "Crafting high-quality homes since 1995, we deliver expert craftsmanship, on-time completion, and cost-friendly solutions for every family.",
         imageUrl: "/img/Expertise/img1.jpeg",
-        link: "/projects?category=Residential",
+        link: "/projects#/projects?category=Residential",
     },
     {
         title: "Farmhouse Projects",
         description: "Designing and building luxury farmhouses on your own land—complete with modern amenities and beautiful landscapes.",
         imageUrl: "/img/Expertise/img2.jpg",
-        link: "/projects/farmhouse",
+        link: "/projects#/projects?category=Infrastructure",
     },
     {
         title: "Industrial Complexes",
         description: "Specializing in cotton jeans mills and other industrial builds, optimized for efficiency, quality, and rapid turnaround.",
         imageUrl: "/img/Expertise/img3.jpg",
-        link: "/projects/industrial",
+        link: "/projects#/projects?category=Industrial",
     },
     {
         title: "Government & Infrastructure",
         description: "Partnering on government-led STP plants, warehouses, and civic projects—delivering precision and compliance from start to finish.",
         imageUrl: "/img/Expertise/img4.jpg",
-        link: "/projects/government",
+        link: "/projects#/projects?category=Commercial",
     },
 ];
 

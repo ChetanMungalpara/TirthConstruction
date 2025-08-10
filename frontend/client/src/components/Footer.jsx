@@ -9,10 +9,10 @@ import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 const Footer = () => {
   const socialIcons = [
-    { name: 'Facebook', href: '#', icon: <Facebook size={16} /> },
-    { name: 'Instagram', href: '#', icon: <FaInstagram size={16} /> },
-    { name: 'LinkedIn', href: '#', icon: <Linkedin size={16} /> },
-    { name: 'WhatsApp', href: '#', icon: <FaWhatsapp size={16} /> },
+    { name: 'Facebook', href: 'https://www.facebook.com/pravinmungalpara.patel/', icon: <Facebook size={16} /> },
+    { name: 'Instagram', href: 'https://www.instagram.com/', icon: <FaInstagram size={16} /> },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/', icon: <Linkedin size={16} /> },
+    { name: 'WhatsApp', href: 'https://www.whatsapp.com/', icon: <FaWhatsapp size={16} /> },
   ];
 
   return (

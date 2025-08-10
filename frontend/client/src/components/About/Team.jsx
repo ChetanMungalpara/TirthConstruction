@@ -7,10 +7,10 @@ import useOnScreen from '../ui/useOnScreen';
 // =================================================================================
 const Team = () => {
     const teamMembers = [
-        { name: "Pravinbhai G. Mungalpara", role: "Founder & Visionary" },
-        { name: "Vinubhai G. Mungalpara", role: "Co-Founder & Operations Head" },
-        { name: "Nareshbhai G. Mungalpara", role: "Co-Founder & Project Manager" },
-        { name: "Rajubhai Bhadani", role: "Founding Partner & Site Supervisor" }
+        { name: "Pravinbhai G. Mungalpara", role: "Founder & Visionary", id: 1 },
+        { name: "Vinubhai G. Mungalpara", role: "Co-Founder & Operations Head", id: 2 },
+        { name: "Nareshbhai G. Mungalpara", role: "Co-Founder & Project Manager", id: 3 },
+        { name: "Rajubhai Bhadani", role: "Founding Partner & Site Supervisor", id: 4 }
     ];
 
     return (
@@ -31,9 +31,10 @@ const TeamMemberCard = ({ member, index }) => {
     const [ref, isVisible] = useOnScreen({ threshold: 0.2 });
 
     return (
-        <div 
+        <a 
             ref={ref} 
             className={`group text-center bg-neutral-900 rounded-lg transition-all duration-700 ease-out border border-neutral-700 hover:!shadow-2xl hover:!shadow-orange-500/20`}
+            href={`http://localhost:5173/contractors#/contractors/${member.id}`}
             style={{
                 transform: isVisible ? 'rotateY(0) translateZ(0)' : 'rotateY(-45deg) translateZ(-100px)',
                 opacity: isVisible ? 1 : 0,
@@ -50,7 +51,7 @@ const TeamMemberCard = ({ member, index }) => {
                 <h3 className="mt-4 text-xl font-semibold text-white">{member.name}</h3>
                 <p className="text-[#f39c12] font-semibold">{member.role}</p>
             </div>
-        </div>
+        </a>
     );
 };
 export default Team;

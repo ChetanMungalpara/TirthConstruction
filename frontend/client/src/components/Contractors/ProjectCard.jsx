@@ -44,7 +44,7 @@ const ProjectCard = ({ project }) => {
                     <span>{formatDateRange(project.startDate, project.endDate)}</span>
                 </div>
                  <a 
-                    href={`http://localhost:5173/projects/${project.id}`} 
+                    href={`http://localhost:5173/projects#/projects/${project.id}`} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-block mt-4 bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors duration-300 text-sm text-center"

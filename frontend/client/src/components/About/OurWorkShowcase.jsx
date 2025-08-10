@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import useOnScreen from '../ui/useOnScreen';
 const OurWorkShowcase = () => {
     const [ref, isVisible] = useOnScreen({ threshold: 0.2 });
+    const navigate = useNavigate();
     return (
         <section ref={ref} className="w-full py-16 sm:py-20 bg-neutral-900 rounded-xl shadow-lg overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12">
@@ -13,7 +15,7 @@ const OurWorkShowcase = () => {
                     <p className="mt-4 text-gray-500">
                         This project showcases our ability to blend aesthetics with functionality, creating spaces that are both stunning and livable. It's a living portfolio of what Tirth Construction can achieve.
                     </p>
-                    <button className="mt-8 group relative inline-block text-[#f39c12] font-bold py-3 px-8 rounded-lg border-2 border-[#f39c12] overflow-hidden transition-all duration-300 shadow-lg shadow-orange-500/20">
+                    <button className="mt-8 group relative inline-block text-[#f39c12] font-bold py-3 px-8 rounded-lg border-2 border-[#f39c12] overflow-hidden transition-all duration-300 shadow-lg shadow-orange-500/20" onClick={() => navigate("/projects")}>
                         <span className="absolute inset-0 bg-[#f39c12] z-0 transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
                         <span className="relative z-10 text-[#f39c12] group-hover:text-white transition-colors duration-300">
                             View Our Projects
