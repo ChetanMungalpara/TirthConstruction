@@ -47,8 +47,13 @@ const Footer = () => {
           <h3 className="text-base font-semibold text-white mb-4">Connect with Us</h3>
           <ul className="space-y-3 text-sm text-gray-200">
             <li className="flex items-center">
-              <User className="h-4 w-4 mr-2 text-gray-300" />
-              Contact Us
+              <a
+                href="/contact"
+                className="hover:text-white transition flex items-center"
+              >
+                <User className="h-4 w-4 mr-2 text-gray-300" />
+                Contact Us
+              </a>
             </li>
             <li className="flex items-center">
               <Mail className="h-4 w-4 mr-2 text-gray-300" />

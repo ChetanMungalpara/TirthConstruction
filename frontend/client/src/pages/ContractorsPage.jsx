@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { contractors } from '../components/Contractors/data';
+import axios from 'axios';
+
+// Child components
 import AnimatedHeader from '../components/Contractors/AnimatedHeader';
 import AllFoundersView from '../components/Contractors/AllFoundersView';
 import IndividualFounderView from '../components/Contractors/contractor';
@@ -41,37 +43,66 @@ const EventModal = ({ event, setSelectedEvent }) => {
 // --- MAIN PAGE COMPONENT ---
 
 function ContractorsPage() {
-    const [selectedId, setSelectedId] = useState(0);
+    const [contractors, setContractors] = useState([]);
+    const [allProjects, setAllProjects] = useState([]); // State for projects
+    const [loading, setLoading] = useState(true);
+    const [selectedId, setSelectedId] = useState("0");
     const [selectedEvent, setSelectedEvent] = useState(null);
 
+    // 1. Fetch all data (contractors and projects) once when the page loads
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [contractorsRes, projectsRes] = await Promise.all([
+                    axios.get('http://localhost:5000/api/contractors/'),
+                    axios.get('http://localhost:5000/api/projects/')
+                ]);
+                setContractors(contractorsRes.data);
+                setAllProjects(projectsRes.data);
+            } catch (error) {
+                console.error("Failed to fetch page data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+    // 2. This effect listens for URL hash changes
     useEffect(() => {
         const handleHashChange = () => {
             const hash = window.location.hash.replace('#/contractors/', '');
-            const id = parseInt(hash, 10);
-            if (!isNaN(id) && contractors.some(c => c.id === id)) {
-                setSelectedId(id);
+            if (hash && contractors.some(c => c.id === hash)) {
+                setSelectedId(hash);
             } else {
-                setSelectedId(0);
+                setSelectedId("0");
             }
         };
-        handleHashChange();
+        
+        if (!loading) {
+            handleHashChange();
+        }
+        
         window.addEventListener('hashchange', handleHashChange);
         return () => window.removeEventListener('hashchange', handleHashChange);
-    }, []);
+    }, [loading, contractors]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            const newHash = `#/contractors/${selectedId}`;
-            if (window.location.hash !== newHash) {
-                window.history.pushState(null, '', newHash);
-            }
-        }, 100);
-        return () => clearTimeout(timer);
-    }, [selectedId]);
+    // 3. This function updates the URL when a header item is clicked
+    const handleSelectContractor = (id) => {
+        window.location.hash = `#/contractors/${id}`;
+    };
 
-    const selectedData = selectedId === 0 ?
-        { id: 0 } :
+    const selectedData = selectedId === "0" ?
+        { id: "0" } :
         contractors.find(c => c.id === selectedId);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
+                <h1 className="text-4xl font-bold text-gray-800 animate-pulse">Loading Team...</h1>
+            </div>
+        );
+    }
 
     return (
         <>
@@ -81,21 +112,31 @@ function ContractorsPage() {
                     <p className="text-lg text-gray-500">The Foundation of Our Success</p>
                 </div>
 
-                <AnimatedHeader selectedId={selectedId} setSelectedId={setSelectedId} />
+                <AnimatedHeader 
+                    contractors={contractors} 
+                    selectedId={selectedId} 
+                    setSelectedId={handleSelectContractor} 
+                />
 
                 <div className="container w-full px-4 md:px-8">
                     <AnimatePresence mode="wait">
                         <motion.div
-                            key={selectedData.id}
+                            key={selectedId}
                             initial={{ opacity: 0, y: 50, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -30, scale: 0.95 }}
                             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         >
-                            {selectedId === 0 ? (
-                                <AllFoundersView setSelectedEvent={setSelectedEvent} />
+                            {selectedId === "0" ? (
+                                <AllFoundersView contractors={contractors} setSelectedEvent={setSelectedEvent} />
                             ) : (
-                                <IndividualFounderView contractor={selectedData} />
+                                // Pass all the necessary data down to the individual view
+                                selectedData && 
+                                <IndividualFounderView 
+                                    contractor={selectedData} 
+                                    allProjects={allProjects}
+                                    allContractors={contractors}
+                                />
                             )}
                         </motion.div>
                     </AnimatePresence>
