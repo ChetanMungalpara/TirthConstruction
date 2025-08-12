@@ -36,6 +36,9 @@ app.use('/api/contact', contactRouter);
 const eventsRouter = require('./routes/events');
 app.use('/api/events', eventsRouter);
 
+app.get('/', (req, res) => {
+  res.send('Server is up and running!');
+});
 
 const port = process.env.PORT || 5000;
 
