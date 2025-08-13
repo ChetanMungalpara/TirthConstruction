@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 // Import your pages
@@ -11,14 +11,15 @@ import About from './pages/About';
 
 function App() {
   return (
+    // The Router has been removed from here, as it's already in main.jsx
     <div className="max-w-[94%] mx-auto">
         <Navbar />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/contractors" element={<ContractorsPage />} />
-          <Route path="/projects" element={<ProjectsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/about" element={<About />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/contractors" element={<ContractorsPage />} />
+            <Route path="/projects" element={<ProjectsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<About />} />
         </Routes>
         <Footer />
     </div>

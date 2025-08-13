@@ -1,8 +1,9 @@
-// backend/server.js
+// backend/index.js
 
 const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
+const passport = require('passport'); // Import passport
 require('dotenv').config();
 
 const app = express();
@@ -10,31 +11,40 @@ const app = express();
 // Connect Database
 connectDB();
 
+// Passport Config (must be after models are registered)
+require('./config/passport')(passport); // Pass passport to config
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
+// Passport Middleware
+app.use(passport.initialize());
+
+
 // --- Use the API Routes ---
 const typeOfWorkRouter = require('./routes/typeOfWork');
-app.use('/api/work-types', typeOfWorkRouter); // Now your API is live at this URL
+app.use('/api/work-types', typeOfWorkRouter);
 
 const contractorsRouter = require('./routes/contractors');
 app.use('/api/contractors', contractorsRouter);
 
-
 const projectsRouter = require('./routes/projects');
 app.use('/api/projects', projectsRouter);
 
-
 const statusesRouter = require('./routes/statuses');
 app.use('/api/statuses', statusesRouter);
-
 
 const contactRouter = require('./routes/contact');
 app.use('/api/contact', contactRouter);
 
 const eventsRouter = require('./routes/events');
 app.use('/api/events', eventsRouter);
+
+// Add the new authentication router
+const authRouter = require('./routes/auth');
+app.use('/api/auth', authRouter);
+
 
 app.get('/', (req, res) => {
   res.send('Server is up and running!');

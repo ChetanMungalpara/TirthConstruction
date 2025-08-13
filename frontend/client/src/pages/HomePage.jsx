@@ -2,7 +2,7 @@ import React from 'react';
 import Hero from '../components/Home/Hero';
 import Count from '../components/Home/Count';
 import Expertise from '../components/Home/Expertise';
-import ContractersBanner from '../components/Home/Contracters';
+import ContractorsBanner from '../components/Home/Contractors';
 
 const HomePage = () => {
   return (
@@ -10,7 +10,7 @@ const HomePage = () => {
       <Hero />
       <Count />
       <Expertise/>
-      <ContractersBanner/>
+      <ContractorsBanner/>
     </div>
   );
 };
