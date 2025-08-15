@@ -2,21 +2,23 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const contractorSchema = new Schema({
-    id: { type: String, required: true, unique: true },
     name: { type: String, required: true },
     dpimageurl: { type: String, required: true },
     fullimageurl: { type: String },
     role: { type: String },
-    quats: { type: String }, // Note: 'quats' likely means 'quotes'
+    quotes: { type: String },
     description: { type: String },
-    skills: [{ type: String }], // An array of strings for skills
+    skills: [{ type: String }],
+    
+    projectsCount: { type: Number, default: 0 },
+    experience: { type: Number, default: 0 },
     contact: {
         num: { type: String },
         email: { type: String }
     },
     joiningDate: { type: Date },
     birthdate: { type: Date },
-    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }] // Links to Project documents
+    projects: [{ type: Schema.Types.ObjectId, ref: 'Project' }]
 }, {
     timestamps: true,
 });

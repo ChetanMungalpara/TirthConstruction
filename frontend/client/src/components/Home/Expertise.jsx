@@ -1,26 +1,23 @@
-
 import { motion, useTransform, useScroll } from "framer-motion";
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { fetchTypesOfWork } from '../../services/apiService';
 
 const Expertise = () => {
     const [expertiseData, setExpertiseData] = useState([]);
     const [loading, setLoading] = useState(true);
-    // NEW: A ref to get the dimensions of the main section container.
     const sectionRef = useRef(null);
 
-    // A mock API call for demonstration purposes.
      useEffect(() => {
-        axios.get('http://localhost:5000/api/work-types/')
+        fetchTypesOfWork()
             .then(response => {
-                setExpertiseData(response.data);
+                const formattedData = response.data.map(item => ({...item, imageUrl: item.imageUrl}));
+                setExpertiseData(formattedData);
                 setLoading(false);
             })
             .catch(error => {
                 console.error("Error fetching expertise data from backend:", error);
                 setLoading(false);
             });
-        
     }, []);
 
     return (
@@ -124,7 +121,7 @@ const Card = ({ card, idx }) => {
     ].join(" ");
 
     return (
-        <a href={`/projects#/projects?category=${card.type}`} className={linkclass}>
+        <a href={`/projects?category=${card.type}`} className={linkclass}>
             <div className="relative w-full aspect-[1.4] overflow-hidden rounded-md">
                 <img src={card.imageUrl} alt={card.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-yellow-400 bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">

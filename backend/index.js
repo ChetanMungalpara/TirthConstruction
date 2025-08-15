@@ -23,6 +23,9 @@ app.use(passport.initialize());
 
 
 // --- Use the API Routes ---
+
+
+
 const typeOfWorkRouter = require('./routes/typeOfWork');
 app.use('/api/work-types', typeOfWorkRouter);
 
@@ -45,6 +48,9 @@ app.use('/api/events', eventsRouter);
 const authRouter = require('./routes/auth');
 app.use('/api/auth', authRouter);
 
+
+const dashboardRouter = require('./routes/dashboard');
+app.use('/api/dashboard', dashboardRouter);
 
 app.get('/', (req, res) => {
   res.send('Server is up and running!');

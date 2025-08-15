@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { requestPasswordOtp, verifyPasswordOtp, resetPassword } from '../services/apiService';
+
 import { useNavigate } from 'react-router-dom';
 
 // --- UI Components for each step ---
@@ -13,9 +14,10 @@ const Step1_RequestOtp = ({ onOtpRequested }) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/forgot-password', { identifier });
+            // --- REFACTORED API CALL ---
+            const res = await requestPasswordOtp({ identifier });
             setMessage(res.data.msg);
-            setTimeout(() => onOtpRequested(identifier), 2000); // Wait 2s before going to next step
+            setTimeout(() => onOtpRequested(identifier), 2000);
         } catch (error) {
             setMessage('An error occurred. Please try again.');
             setLoading(false);
@@ -43,7 +45,6 @@ const Step1_RequestOtp = ({ onOtpRequested }) => {
         </div>
     );
 };
-
 const Step2_VerifyOtp = ({ identifier, onOtpVerified }) => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
@@ -54,7 +55,8 @@ const Step2_VerifyOtp = ({ identifier, onOtpVerified }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/verify-otp', { identifier, otp });
+            // --- REFACTORED API CALL ---
+            const res = await verifyPasswordOtp({ identifier, otp });
             onOtpVerified(res.data.resetToken);
         } catch (err) {
             setError(err.response?.data?.msg || 'Verification failed.');
@@ -86,8 +88,7 @@ const Step2_VerifyOtp = ({ identifier, onOtpVerified }) => {
 };
 
 const Step3_ResetPassword = ({ resetToken, onPasswordReset }) => {
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [password, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -101,7 +102,8 @@ const Step3_ResetPassword = ({ resetToken, onPasswordReset }) => {
         setLoading(true);
         setError('');
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/reset-password', { resetToken, password });
+            // --- REFACTORED API CALL ---
+            const res = await resetPassword({ resetToken, password });
             localStorage.setItem('token', res.data.token);
             onPasswordReset();
             navigate('/dashboard.html');

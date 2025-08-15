@@ -1,22 +1,22 @@
 import React from 'react';
 import { useMemo, useState, useEffect } from 'react';
 import { FaUsers, FaBuilding, FaCalendarAlt } from 'react-icons/fa';
-import axios from 'axios';
 import { AnimatedTooltip } from "../ui/animated-tooltip";
+// --- UPDATED IMPORT ---
+import { fetchContractors, fetchEvents } from '../../services/apiService';
 
-// The component now receives setSelectedEvent as a prop and fetches its own data.
 const AllFoundersView = ({ setSelectedEvent }) => {
     const [contractors, setContractors] = useState([]);
-    const [events, setEvents] = useState([]); // State for events data
+    const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch both contractors and events data from the API in parallel
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // --- REFACTORED DATA FETCHING ---
                 const [contractorsRes, eventsRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/contractors/'),
-                    axios.get('http://localhost:5000/api/events/')
+                    fetchContractors(),
+                    fetchEvents()
                 ]);
                 setContractors(contractorsRes.data);
                 setEvents(eventsRes.data);
@@ -33,7 +33,7 @@ const AllFoundersView = ({ setSelectedEvent }) => {
     const totalProjects = useMemo(() => contractors.reduce((sum, c) => sum + (c.projectsCount || 0), 0), [contractors]);
     const combinedExperience = useMemo(() => contractors.reduce((sum, c) => sum + (c.experience || 0), 0), [contractors]);
     const tooltipItems = useMemo(() => contractors.map(c => ({
-        id: c.id,
+        id: c._id,
         name: c.name,
         designation: c.role,
         imgSrc: c.dpimageurl
@@ -81,8 +81,7 @@ const AllFoundersView = ({ setSelectedEvent }) => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Map over the fetched 'events' state */}
                     {events.map(event => (
-                        <div key={event.id} className="cursor-pointer group relative rounded-lg overflow-hidden shadow-lg" onClick={() => setSelectedEvent(event)}>
-                            {/* Use 'imagesrc' from the backend data */}
+                        <div key={event._id} className="cursor-pointer group relative rounded-lg overflow-hidden shadow-lg" onClick={() => setSelectedEvent(event)}>
                             <img src={event.imagesrc} alt={event.title} className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110" />
                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <p className="text-white text-lg font-bold text-center p-4">{event.title}</p>

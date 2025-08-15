@@ -1,5 +1,5 @@
-import React, { useState } from 'react'; // Fixed: Imported useState
-import axios from 'axios';
+import React, { useState } from 'react';
+import { loginUser,googleLogin } from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 import ForgotPasswordFlow from './ForgotPasswordFlow';
 // --- SVG Icons (No changes needed here) ---
@@ -22,6 +22,7 @@ const GoogleIcon = ({ className }) => (
   </svg>
 );
 
+
 const Login = ({ closeModal }) => {
     const [formData, setFormData] = useState({ identifier: '', password: '' });
     const [error, setError] = useState('');
@@ -34,9 +35,10 @@ const Login = ({ closeModal }) => {
     const onSubmit = async e => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', { identifier, password });
+            // --- REFACTORED API CALL ---
+            const res = await loginUser({ identifier, password });
             localStorage.setItem('token', res.data.token);
-            if(closeModal) closeModal();
+            if (closeModal) closeModal();
             navigate('/dashboard.html');
         } catch (err) {
             setError(err.response?.data?.msg || 'An error occurred');
@@ -44,8 +46,9 @@ const Login = ({ closeModal }) => {
         }
     };
 
+
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:5000/api/auth/google';
+        window.location.href = googleLogin;
     };
     if (showForgotPassword) {
         return <ForgotPasswordFlow onFlowComplete={() => setShowForgotPassword(false)} />;

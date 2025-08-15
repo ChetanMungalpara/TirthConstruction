@@ -5,19 +5,19 @@ import { FaHome, FaBuilding, FaTools, FaCalendarAlt } from 'react-icons/fa';
 // and displays their avatars.
 const ProjectContractors = ({ contractorIds, allContractors = [] }) => {
     const projectContractors = contractorIds
-        .map(id => allContractors.find(c => c.id === id))
+        .map(id => allContractors.find(c => c._id === id))
         .filter(Boolean); // This removes any nulls if a contractor isn't found
 
     return (
         <div className="relative flex -space-x-3">
             {projectContractors.slice(0, 4).map(contractor => (
-                <img 
-                    key={contractor.id} 
-                    src={contractor.dpimageurl} 
-                    alt={contractor.name} 
-                    title={contractor.name} 
+                <img
+                    key={contractor._id}
+                    src={contractor.dpimageurl}
+                    alt={contractor.name}
+                    title={contractor.name}
                     className="w-10 h-10 rounded-full object-cover ring-2 ring-white"
-                    onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/40x40/CCCCCC/FFFFFF?text=TC'; }}
+                    onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/40x40/CCCCCC/FFFFFF?text=TC'; }}
                 />
             ))}
         </div>
@@ -27,7 +27,7 @@ const ProjectContractors = ({ contractorIds, allContractors = [] }) => {
 // The main ProjectCard component. It is now a "presentational" component
 // that just displays the data it receives.
 const ProjectCard = ({ project, allContractors }) => {
-    
+
     const formatDateRange = (start, end) => {
         const options = { year: 'numeric', month: 'short' };
         const startDate = new Date(start).toLocaleDateString('en-US', options);
@@ -39,14 +39,14 @@ const ProjectCard = ({ project, allContractors }) => {
 
     // This function will need to be updated when you fetch "Project Types" data.
     const getIcon = (typeId) => {
-        switch(typeId) {
+        switch (typeId) {
             case '1': return <FaHome className="text-yellow-500" />;    // Residential
             case '2': return <FaBuilding className="text-blue-500" />; // Commercial
             case '3': return <FaTools className="text-gray-500" />;    // Industrial
             default: return <FaBuilding />;
         }
     };
-    
+
     return (
         <div className="bg-white rounded-lg shadow-md overflow-hidden h-full flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
             <div className="relative">
@@ -71,8 +71,8 @@ const ProjectCard = ({ project, allContractors }) => {
                     {/* Use startdate and endDate from the backend */}
                     <span>{formatDateRange(project.startdate, project.endDate)}</span>
                 </div>
-                <a 
-                    href={`/projects#/projects/${project.id}`}
+                <a
+                    href={`/projects/${project._id}`}
                     className="inline-block mt-4 bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-600 transition-colors duration-300 text-sm text-center"
                 >
                     View Project

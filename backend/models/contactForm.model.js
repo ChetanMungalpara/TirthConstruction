@@ -8,7 +8,7 @@ const contactFormSchema = new Schema({
     phone: { type: String, required: true },
     message: { type: String, required: true },
 }, {
-    timestamps: true, // Adds createdAt and updatedAt fields
+    timestamps: true,
 });
 
 const ContactFormSubmission = mongoose.model('ContactFormSubmission', contactFormSchema);

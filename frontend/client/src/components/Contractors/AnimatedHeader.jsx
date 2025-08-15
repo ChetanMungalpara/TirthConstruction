@@ -5,7 +5,7 @@ import { FaUsers } from 'react-icons/fa';
 // The component now correctly receives props from its parent (ContractorsPage)
 const AnimatedHeader = ({ contractors, selectedId, setSelectedId }) => {
     // We construct the 'items' array by adding the "All" button to the contractors list from props
-    const items = [{ id: "0", name: 'All', Icon: FaUsers }, ...contractors];
+    const items = [{ id: "0", name: 'All', Icon: FaUsers }, ...contractors].map(item => ({ ...item, key: item._id || item.id }));
     const hasSelection = selectedId !== "0";
 
     return (
@@ -17,29 +17,29 @@ const AnimatedHeader = ({ contractors, selectedId, setSelectedId }) => {
                     className="flex items-center gap-4 p-4"
                 >
                     {/* This section renders the large, selected contractor icon */}
-                    {hasSelection && items.filter(i => i.id === selectedId).map(item => (
-                         <motion.div
-                            key={item.id}
-                            layoutId={`contractor-${item.id}`}
-                            onClick={() => setSelectedId(item.id)}
+                    {hasSelection && items.filter(i => i.key === selectedId).map(item => (
+                        <motion.div
+                            key={item.key}
+                            layoutId={`contractor-${item.key}`}
+                            onClick={() => setSelectedId(item.key)}
                             className="cursor-pointer group flex flex-col items-center flex-shrink-0"
                         >
                             {/* Use dpimageurl from the backend data */}
-                            <img 
-                                src={item.dpimageurl} 
-                                alt={item.name} 
+                            <img
+                                src={item.dpimageurl}
+                                alt={item.name}
                                 className="w-24 h-24 rounded-full object-cover shadow-lg ring-4 ring-yellow-400"
                             />
-                             <p className="mt-2 font-semibold text-gray-800">{item.name.split(' ')[0]}</p>
-                         </motion.div>
+                            <p className="mt-2 font-semibold text-gray-800">{item.name.split(' ')[0]}</p>
+                        </motion.div>
                     ))}
                     {/* This section renders the list of other, smaller icons */}
                     <div className={`flex items-center gap-4 ${hasSelection ? 'pl-8 border-l-2 border-gray-200' : ''}`}>
-                        {items.filter(item => hasSelection ? item.id !== selectedId : true).map(item => (
+                        {items.filter(item => hasSelection ? item.key !== selectedId : true).map(item => (
                             <motion.div
-                                key={item.id}
-                                layoutId={`contractor-${item.id}`}
-                                onClick={() => setSelectedId(item.id)}
+                                key={item.key}
+                                layoutId={`contractor-${item.key}`}
+                                onClick={() => setSelectedId(item.key)}
                                 className="cursor-pointer group flex flex-col items-center flex-shrink-0"
                             >
                                 <div className="relative">
@@ -50,9 +50,9 @@ const AnimatedHeader = ({ contractors, selectedId, setSelectedId }) => {
                                         </div>
                                     ) : (
                                         // Logic for the individual contractor images
-                                        <img 
-                                            src={item.dpimageurl} 
-                                            alt={item.name} 
+                                        <img
+                                            src={item.dpimageurl}
+                                            alt={item.name}
                                             className="w-16 h-16 rounded-full object-cover shadow-md transition-all duration-300 group-hover:scale-110 ring-2 ring-gray-300"
                                         />
                                     )}

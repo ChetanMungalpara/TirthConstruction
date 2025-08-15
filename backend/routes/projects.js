@@ -1,18 +1,21 @@
+// TirthConstruction/backend/routes/projects.js
 const router = require('express').Router();
 let Project = require('../models/project.model');
 
-// --- GET ALL PROJECTS ---
-// Handles GET requests to the URL: /api/projects/
+// --- GET ALL PROJECTS (No change here) ---
 router.route('/').get((req, res) => {
     Project.find()
         .then(projects => res.json(projects))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// --- GET A SINGLE PROJECT BY ITS CUSTOM ID ---
-// Handles GET requests to URLs like: /api/projects/P0001
+// --- GET A SINGLE PROJECT BY ITS ID (Modify this route) ---
 router.route('/:id').get((req, res) => {
-    Project.findOne({ id: req.params.id }) // Use findOne with your custom 'id' field
+    Project.findById(req.params.id)
+        // ADD THE .populate() CALLS HERE
+        .populate('contractorIds', 'name role dpimageurl') // Populates contractors, but only includes their name, role, and image URL fields.
+        .populate('statusId')     // Populates the entire 'Status' document.
+        .populate('typeId')       // Populates the entire 'TypeOfWork' document.
         .then(project => {
             if (!project) {
                 return res.status(404).json('Error: Project not found');
@@ -21,11 +24,5 @@ router.route('/:id').get((req, res) => {
         })
         .catch(err => res.status(400).json('Error: ' + err));
 });
-
-// You can add routes for adding, updating, and deleting projects here later
-// for your contractor dashboard.
-// router.route('/add').post(...)
-// router.route('/update/:id').post(...)
-// router.route('/delete/:id').delete(...)
 
 module.exports = router;

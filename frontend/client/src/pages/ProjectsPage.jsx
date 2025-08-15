@@ -1,19 +1,21 @@
+// TirthConstruction/frontend/client/src/pages/ProjectsPage.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import axios
+
+import { fetchProjects } from '../services/apiService';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import ProjectDetailPage from '../components/Projects/ProjectDetailPage';
 import ProjectsListPage from '../components/Projects/ProjectsListPage';
 
 const ProjectsPage = () => {
-    // State to hold all projects, fetched from the backend
     const [allProjects, setAllProjects] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // State to manage the current URL path from the hash
-    const [path, setPath] = useState(() => window.location.hash.slice(1) || '/projects');
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    // Fetch all projects from the backend when the component mounts
     useEffect(() => {
-        axios.get('http://localhost:5000/api/projects/')
+        fetchProjects()
             .then(response => {
                 setAllProjects(response.data);
                 setLoading(false);
@@ -24,30 +26,12 @@ const ProjectsPage = () => {
             });
     }, []);
 
-    // Effect to listen for changes in the URL hash
-    useEffect(() => {
-        const onHashChange = () => {
-            setPath(window.location.hash.slice(1) || '/projects');
-            window.scrollTo(0, 0);
-        };
+    // This entire useEffect for hash changes can now be DELETED.
+    // The useParams() hook handles it for us automatically.
 
-        window.addEventListener('hashchange', onHashChange);
-        if (!window.location.hash) {
-            window.location.hash = '/projects';
-        }
-        return () => window.removeEventListener('hashchange', onHashChange);
-    }, []);
-
-    const handleNavigate = (newPath) => {
-        if ((window.location.hash.slice(1) || '/projects') !== newPath) {
-            window.location.hash = newPath;
-        }
-    };
-
-    const handleProjectClick = (id) => handleNavigate(`/projects/${id}`);
-    const handleBackClick = () => handleNavigate('/projects');
-
-    // --- RENDER LOGIC ---
+    const handleProjectClick = (projectId) => navigate(`/projects/${projectId}`);
+    const handleBackClick = () => navigate('/projects');
+    const handleNavigate = (newPath) => navigate(newPath);
 
     if (loading) {
         return (
@@ -57,37 +41,16 @@ const ProjectsPage = () => {
         );
     }
 
-    const [pathname, search] = path.split('?');
-    const pathSegments = pathname.split('/').filter(Boolean);
-    const searchParams = new URLSearchParams(search || '');
-
-    let pageContent;
-    if (pathSegments[0] === 'projects' && pathSegments[1]) {
-        const projectId = pathSegments[1];
-        // Find the selected project from the data we fetched
-        const selectedProject = allProjects.find(p => p.id === projectId);
-        pageContent = selectedProject 
-            ? <ProjectDetailPage project={selectedProject} onBackClick={handleBackClick} /> 
-            : <ProjectsListPage allProjects={allProjects} onProjectClick={handleProjectClick} initialCategory="All" onNavigate={handleNavigate} />;
-    } else {
-        const initialCategory = searchParams.get('category');
-        pageContent = <ProjectsListPage allProjects={allProjects} onProjectClick={handleProjectClick} initialCategory={initialCategory} onNavigate={handleNavigate} />;
+    // Check if an ID is present in the URL
+    if (id) {
+        const selectedProject = allProjects.find(p => p._id === id);
+        return <ProjectDetailPage project={selectedProject} onBackClick={handleBackClick} />;
     }
 
-    return (
-        <div className="bg-gray-50 min-h-screen rounded-[9.6px] font-sans">
-            {pageContent}
-            <style>{`
-                @keyframes fadeIn { 
-                    from { opacity: 0; transform: translateY(10px); } 
-                    to { opacity: 1; transform: translateY(0); } 
-                } 
-                .animate-fade-in { 
-                    animation: fadeIn 0.5s ease-in-out forwards; 
-                }
-            `}</style>
-        </div>
-    );
+    // If no ID, show the list page
+    const searchParams = new URLSearchParams(location.search);
+    const initialCategory = searchParams.get('category');
+    return <ProjectsListPage onProjectClick={handleProjectClick} initialCategory={initialCategory} onNavigate={handleNavigate} />;
 };
 
 export default ProjectsPage;

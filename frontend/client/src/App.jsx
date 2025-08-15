@@ -13,15 +13,20 @@ function App() {
   return (
     // The Router has been removed from here, as it's already in main.jsx
     <div className="max-w-[94%] mx-auto">
-        <Navbar />
-        <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/contractors" element={<ContractorsPage />} />
-            <Route path="/projects" element={<ProjectsPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/about" element={<About />} />
-        </Routes>
-        <Footer />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        
+        <Route path="/contractors" element={<ContractorsPage />} />
+        <Route path="/contractors/:id" element={<ContractorsPage />} /> 
+
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:id" element={<ProjectsPage />} /> 
+
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }

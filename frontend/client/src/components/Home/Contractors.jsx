@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '../../lib/utils';
-import axios from 'axios';
+import { fetchContractors } from '../../services/apiService';
 
 const PinPerspective = ({ title, href, isPinned }) => {
   return (
@@ -110,17 +110,18 @@ const ContractorsBanner = () => {
       setIsPaused(true);
     }
   };
-  useEffect(() => {
-    axios.get('http://localhost:5000/api/contractors/')
-      .then(response => {
-        setContractors(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error("Error fetching contractors:", error);
-        setLoading(false);
-      });
-  }, []);
+   useEffect(() => {
+        // --- REFACTORED DATA FETCHING ---
+        fetchContractors()
+            .then(response => {
+                setContractors(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Error fetching contractors:", error);
+                setLoading(false);
+            });
+    }, []);
 // Add this new useEffect hook inside your ContractorsBanner component
 
 useEffect(() => {
@@ -264,7 +265,7 @@ useEffect(() => {
             const isActive = isPaused && activeIndex === index;
             return (
               <div
-                key={contractor.id}
+                key={contractor._id}
                 className={cn(
                   "carousel-item absolute top-0 left-0 w-full h-full bg-white dark:bg-zinc-900 rounded-xl p-6 flex flex-col items-center justify-center text-center border border-gray-200 dark:border-white/[0.1]",
                   { "is-active": isActive }
@@ -292,7 +293,7 @@ useEffect(() => {
         </div>
         <PinPerspective
           title={activeContractor ? "View Profile" : ""}
-          href={activeContractor ? `contractors#/contractors/${activeContractor.id}` : "#"}
+          href={activeContractor ? `/contractors/${activeContractor._id}` : "#"}
           isPinned={isPinVisible}
         />
       </div>

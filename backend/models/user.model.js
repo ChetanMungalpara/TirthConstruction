@@ -31,7 +31,6 @@ const userSchema = new Schema({
         ref: 'Contractor', 
         required: true 
     },
-    // --- NEW FIELDS FOR PASSWORD RESET ---
     resetPasswordOtp: {
         type: String,
     },

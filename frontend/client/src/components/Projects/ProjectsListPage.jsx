@@ -1,28 +1,30 @@
+// TirthConstruction/frontend/client/src/components/Projects/ProjectListPage.jsx
 import React, { useState, useMemo, useEffect } from 'react';
-import axios from 'axios';
+// --- CHANGE #1: Import our new service functions ---
+import { fetchProjects, fetchContractors, fetchStatuses } from '../../services/apiService'; 
 import ProjectCard from './ProjectCard';
 
-// The component now fetches all necessary data
 const ProjectsListPage = ({ onProjectClick, initialCategory, onNavigate }) => {
-    // State for all data types
     const [allProjects, setAllProjects] = useState([]);
     const [allContractors, setAllContractors] = useState([]);
     const [allStatuses, setAllStatuses] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch all data in parallel when the component mounts
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Promise.all fetches all data concurrently for better performance
+                // --- CHANGE #2: Use the functions from our service ---
+                // The code is now more declarative. It says *what* to do, not *how*.
                 const [projectsRes, contractorsRes, statusesRes] = await Promise.all([
-                    axios.get('http://localhost:5000/api/projects/'),
-                    axios.get('http://localhost:5000/api/contractors/'),
-                    axios.get('http://localhost:5000/api/statuses/')
+                    fetchProjects(),
+                    fetchContractors(),
+                    fetchStatuses()
                 ]);
+
                 setAllProjects(projectsRes.data);
                 setAllContractors(contractorsRes.data);
                 setAllStatuses(statusesRes.data);
+
             } catch (error) {
                 console.error("Failed to fetch page data:", error);
             } finally {
@@ -32,7 +34,7 @@ const ProjectsListPage = ({ onProjectClick, initialCategory, onNavigate }) => {
         fetchData();
     }, []);
 
-
+    // ... the rest of your component logic remains the same ...
     const activeFilter = initialCategory || 'All';
     const categories = useMemo(() => ['All', ...new Set(allProjects.map(p => p.typeId))], [allProjects]);
 
@@ -62,10 +64,9 @@ const ProjectsListPage = ({ onProjectClick, initialCategory, onNavigate }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                 {sortedAndFilteredProjects.map((project) => (
                     <ProjectCard 
-                        key={project.id} 
+                        key={project._id} 
                         project={project} 
                         onProjectClick={onProjectClick}
-                        // Pass all the necessary data down to the card
                         allContractors={allContractors}
                         allStatuses={allStatuses}
                     />

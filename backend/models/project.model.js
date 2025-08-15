@@ -1,7 +1,7 @@
+// TirthConstruction/backend/models/project.model.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Schema for the nested gallery objects
 const galleryItemSchema = new Schema({
     imgurl: { type: String, required: true },
     title: { type: String },
@@ -16,28 +16,41 @@ const progressTimelineItemSchema = new Schema({
     imagesUrls: [{ type: String }]
 }, { _id: false });
 
-// The main project schema
 const projectSchema = new Schema({
-    // We use the default MongoDB `_id` and don't need a custom one.
-    // Your frontend can use the `_id` field.
-    id: { type: String, required: true, unique: true }, // Keeping your custom ID for now
     title: { type: String, required: true },
-    typeId: { type: String, required: true },
-    statusId: { type: String, required: true },
+
+    typeId: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'TypeOfWork', // This MUST match the model name in typeOfWork.model.js
+        required: true 
+    },
+
+    statusId: { 
+        type: Schema.Types.ObjectId, 
+        ref: 'Status', // This MUST match the model name in status.model.js
+        required: true 
+    },
+
     description: { type: String, required: true },
     imgurl: { type: String, required: true },
     startdate: { type: Date },
     endDate: { type: Date },
-    contractorIds: [{ type: String }], // Array of contractor IDs
+
+    // --- CHANGE #3: Use an array of ObjectIds and ref for Contractors ---
+    contractorIds: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Contractor' // This MUST match the model name in contractor.model.js
+    }],
+
     details: {
         client: { type: String },
         location: { type: String },
         about: { type: String }
     },
-    progressTimeline: [progressTimelineItemSchema], // Array of progress items
-    gallery: [galleryItemSchema] // Array of gallery items
+    progressTimeline: [progressTimelineItemSchema],
+    gallery: [galleryItemSchema]
 }, {
-    timestamps: true, // Automatically adds createdAt and updatedAt
+    timestamps: true,
 });
 
 const Project = mongoose.model('Project', projectSchema);

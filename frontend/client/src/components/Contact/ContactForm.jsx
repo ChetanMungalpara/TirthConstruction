@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios'; // Import axios for data fetching
+
+// --- UPDATED IMPORT ---
+import { fetchContractors, submitContactForm } from '../../services/apiService';
 
 // --- SVG Icons (No changes needed here) ---
 const LocationIcon = () => (
@@ -23,24 +25,17 @@ const EmailIcon = () => (
 );
 
 
+
 function ContactForm() {
-    // State for the form data
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-    });
+    const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
     const [submitted, setSubmitted] = useState(false);
     const [submitError, setSubmitError] = useState('');
-    
-    // State for the fetched contractor data
     const [contractors, setContractors] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch contractor data from the backend
     useEffect(() => {
-        axios.get('http://localhost:5000/api/contractors/')
+        // --- REFACTORED DATA FETCHING ---
+        fetchContractors()
             .then(response => {
                 setContractors(response.data);
                 setLoading(false);
@@ -136,20 +131,17 @@ function ContactForm() {
         };
     }, []);
 
-    const handleChange = (e) => {
+   const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value,
-        }));
+        setFormData(prevState => ({ ...prevState, [name]: value }));
     };
 
-    // Updated handleSubmit to send data to the backend
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmitError(''); // Clear previous errors
+        setSubmitError('');
 
-        axios.post('http://localhost:5000/api/contact/submit', formData)
+        // --- REFACTORED FORM SUBMISSION ---
+        submitContactForm(formData)
             .then(response => {
                 console.log('Form submitted successfully:', response.data);
                 setSubmitted(true);

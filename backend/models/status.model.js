@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const statusSchema = new Schema({
-    id: { type: String, required: true, unique: true },
     title: { type: String, required: true },
     description: { type: String }
 }, {
