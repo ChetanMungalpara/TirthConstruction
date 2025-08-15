@@ -1,4 +1,4 @@
-// backend/index.js
+
 
 const express = require('express');
 const connectDB = require('./config/db');
@@ -44,10 +44,14 @@ app.use('/api/contact', contactRouter);
 const eventsRouter = require('./routes/events');
 app.use('/api/events', eventsRouter);
 
-// Add the new authentication router
 const authRouter = require('./routes/auth');
 app.use('/api/auth', authRouter);
 
+const adminRouter = require('./routes/admin');
+app.use('/api/admin', adminRouter);
+
+const contractorDashboardRouter = require('./routes/contractorDashboard');
+app.use('/api/contractor-dashboard', contractorDashboardRouter);
 
 const dashboardRouter = require('./routes/dashboard');
 app.use('/api/dashboard', dashboardRouter);

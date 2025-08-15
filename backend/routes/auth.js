@@ -11,9 +11,7 @@ const Contractor = require('../models/contractor.model'); // To link on registra
 
 
 
-// --- HELPER FOR SENDING EMAIL (SIMULATED) ---
-// In a real app, use a service like SendGrid, Mailgun, or your own SMTP server.
-// We will use Ethereal for a free, temporary test account.
+
 async function sendPasswordResetEmail(email, otp) {
     // IMPORTANT: Create a test account at https://ethereal.email/create
     // and add the credentials to your .env file.
@@ -44,7 +42,7 @@ async function sendPasswordResetEmail(email, otp) {
 // @desc    Register a new contractor's login credentials.
 // @access  Private (should be protected by an admin middleware later)
 router.post('/register', async (req, res) => {
-    const { email, password, username, phone, contractorId } = req.body;
+    const { email, password, username, phone, contractorId, role } = req.body; 
 
     try {
         // Check if contractor profile exists
@@ -65,6 +63,7 @@ router.post('/register', async (req, res) => {
             username,
             phone,
             contractorProfile: contractorId,
+            role: role || 'contractor',
         });
 
         // Hash password
@@ -112,6 +111,7 @@ router.post('/login', async (req, res) => {
             user: {
                 id: user.id,
                 contractorId: user.contractorProfile,
+                role: user.role, 
             },
         };
 
@@ -148,6 +148,7 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
         user: {
             id: req.user.id,
             contractorId: req.user.contractorProfile,
+            role: req.user.role,
         },
     };
 

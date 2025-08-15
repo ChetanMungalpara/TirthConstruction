@@ -26,6 +26,11 @@ const userSchema = new Schema({
     googleId: {
         type: String,
     },
+    role: {
+        type: String,
+        enum: ['contractor', 'admin'],
+        default: 'contractor',
+    },
     contractorProfile: { 
         type: Schema.Types.ObjectId, 
         ref: 'Contractor', 

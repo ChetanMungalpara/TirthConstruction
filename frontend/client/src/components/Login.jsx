@@ -39,7 +39,7 @@ const Login = ({ closeModal }) => {
             const res = await loginUser({ identifier, password });
             localStorage.setItem('token', res.data.token);
             if (closeModal) closeModal();
-            navigate('/dashboard.html');
+            window.location.href = '/dashboard.html';
         } catch (err) {
             setError(err.response?.data?.msg || 'An error occurred');
             setTimeout(() => setError(''), 3000);

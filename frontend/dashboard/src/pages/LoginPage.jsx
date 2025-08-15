@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Login from '../../client/src/components/Login'; // We can reuse the login component
+import Login from '../../../client/src/components/Login'; // We can reuse the login component
 
 const LoginPage = () => {
     const navigate = useNavigate();
