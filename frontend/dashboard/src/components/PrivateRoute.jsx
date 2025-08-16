@@ -6,21 +6,25 @@ const PrivateRoute = ({ children }) => {
     const token = localStorage.getItem('token');
 
     useEffect(() => {
-        // This effect handles the token from the Google redirect
         const params = new URLSearchParams(window.location.search);
         const urlToken = params.get('token');
 
         if (urlToken) {
+            // 1. A new token is found in the URL from the Google redirect.
             localStorage.setItem('token', urlToken);
-            // Redirect to a clean URL without the token in the query string
-            navigate('/', { replace: true });
+            
+            // 2. IMPORTANT FIX: Force a full page reload.
+            // This clears the old application state and forces a fresh load
+            // of the DashboardLayout with the new, correct token.
+            window.location.href = '/dashboard.html'; 
+
         } else if (!token) {
-            // If no token exists at all, redirect to the login page
+            // 3. If no token exists at all, redirect to the login page.
             navigate('/login', { replace: true });
         }
     }, [token, navigate]);
 
-    // Render children if token exists, otherwise render null while redirecting
+    // Render children if a token exists, otherwise render null while the redirect happens.
     return token ? children : null;
 };
 

@@ -1,4 +1,4 @@
-// TirthConstruction/backend/routes/dashboard.js
+
 const router = require('express').Router();
 const auth = require('../middleware/auth.middleware'); // <-- Import the guard
 const User = require('../models/user.model'); // To get user data
@@ -7,13 +7,15 @@ const User = require('../models/user.model'); // To get user data
 // @desc    Get current logged-in user's data
 // @access  Private
 
-// Here, 'auth' is our middleware. It runs *before* the main (req, res) function.
-// If the token is invalid, the user will never even reach the main function.
+
+// This is the NEW, corrected code:
 router.get('/user', auth, async (req, res) => {
     try {
-        // Because the 'auth' middleware ran successfully,
-        // we have access to req.user.id
-        const user = await User.findById(req.user.id).select('-password');
+        // We add .populate() here to fetch the linked contractor details
+        const user = await User.findById(req.user.id)
+            .select('-password')
+            .populate('contractorProfile'); // <-- THIS IS THE FIX
+
         res.json(user);
     } catch (err) {
         console.error(err.message);

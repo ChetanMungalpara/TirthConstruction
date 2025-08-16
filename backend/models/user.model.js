@@ -12,7 +12,7 @@ const userSchema = new Schema({
     username: { 
         type: String, 
         unique: true, 
-        sparse: true,
+        sparse: true, // Allows multiple null values but unique for actual values
         trim: true,
     },
     phone: {
@@ -36,12 +36,17 @@ const userSchema = new Schema({
         ref: 'Contractor', 
         required: true 
     },
-    resetPasswordOtp: {
-        type: String,
-    },
-    resetPasswordOtpExpires: {
-        type: Date,
-    },
+    
+    // --- Fields for Password Reset ---
+    resetPasswordOtp: { type: String },
+    resetPasswordOtpExpires: { type: Date },
+
+    // --- NEW FIELDS FOR EMAIL/PHONE VERIFICATION ---
+    pendingEmail: { type: String, lowercase: true, trim: true },
+    pendingPhone: { type: String, trim: true },
+    verificationOtp: { type: String },
+    verificationOtpExpires: { type: Date },
+
 }, { 
     timestamps: true 
 });

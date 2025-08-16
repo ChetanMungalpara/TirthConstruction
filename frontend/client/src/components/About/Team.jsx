@@ -1,4 +1,4 @@
-// TirthConstruction/frontend/client/src/components/About/Team.jsx
+
 import React, { useState, useEffect } from 'react';
 import useOnScreen from '../ui/useOnScreen';
 
@@ -74,7 +74,7 @@ const TeamMemberCard = ({ member, index }) => {
                     </div>
                 </div>
                 <h3 className="mt-4 text-xl font-semibold text-white">{member.name}</h3>
-                <p className="text-[#f39c12] font-semibold">{member.role}</p>
+                <p className="text-[#f39c12] font-semibold">{member.companyRole}</p>
             </div>
         </a>
     );

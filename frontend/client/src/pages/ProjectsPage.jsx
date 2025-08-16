@@ -1,4 +1,4 @@
-// TirthConstruction/frontend/client/src/pages/ProjectsPage.jsx
+
 import React, { useState, useEffect } from 'react';
 
 import { fetchProjects } from '../services/apiService';

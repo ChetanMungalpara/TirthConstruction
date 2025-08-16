@@ -285,7 +285,7 @@ useEffect(() => {
                     />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-white">{contractor.name}</h3>
-                  <p className="text-md text-gray-500 dark:text-gray-400">{contractor.role}</p>
+                  <p className="text-md text-gray-500 dark:text-gray-400">{contractor.companyRole}</p>
                 </div>
               </div>
             );

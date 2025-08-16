@@ -35,7 +35,7 @@ const AllFoundersView = ({ setSelectedEvent }) => {
     const tooltipItems = useMemo(() => contractors.map(c => ({
         id: c._id,
         name: c.name,
-        designation: c.role,
+        designation: c.companyRole,
         imgSrc: c.dpimageurl
     })), [contractors]);
 

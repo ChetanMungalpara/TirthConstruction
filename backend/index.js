@@ -56,6 +56,9 @@ app.use('/api/contractor-dashboard', contractorDashboardRouter);
 const dashboardRouter = require('./routes/dashboard');
 app.use('/api/dashboard', dashboardRouter);
 
+const userActionsRouter = require('./routes/userActions');
+app.use('/api/user', userActionsRouter);
+
 app.get('/', (req, res) => {
   res.send('Server is up and running!');
 });

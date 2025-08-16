@@ -49,7 +49,7 @@ const IndividualFounderView = ({ contractor, allProjects = [], allContractors = 
                 </div>
                 <div className="md:col-span-2">
                     <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">{contractor.name}</h2>
-                    <p className="text-xl text-yellow-600 font-bold mt-2">{contractor.role}</p>
+                    <p className="text-xl text-yellow-600 font-bold mt-2">{contractor.companyRole}</p>
                     <hr className="my-6" />
                     {/* Use description from the backend */}
                     <p className="text-gray-700 mt-6 leading-relaxed text-lg">{contractor.description}</p>

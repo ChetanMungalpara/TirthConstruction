@@ -1,4 +1,4 @@
-// TirthConstruction/frontend/client/src/components/Projects/ProjectListPage.jsx
+
 import React, { useState, useMemo, useEffect } from 'react';
 // --- CHANGE #1: Import our new service functions ---
 import { fetchProjects, fetchContractors, fetchStatuses } from '../../services/apiService'; 

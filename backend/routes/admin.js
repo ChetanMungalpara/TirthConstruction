@@ -1,4 +1,4 @@
-// TirthConstruction/backend/routes/admin.js
+
 const router = require('express').Router();
 const auth = require('../middleware/auth.middleware');
 const admin = require('../middleware/admin.middleware');
@@ -23,17 +23,45 @@ router.get('/dashboard-summary', [auth, admin], async (req, res) => {
     }
 });
 
-// Example: Admin can create a new contractor profile
-// @route   POST /api/admin/contractors
-// @desc    Create a new contractor
+
+// @route   GET /api/admin/users
+// @desc    Get all users
 // @access  Private, Admin
-router.post('/contractors', [auth, admin], async (req, res) => {
-    // ... logic to create a new Contractor ...
-    res.json({ msg: "Contractor created by admin" });
+router.get('/users', [auth, admin], async (req, res) => {
+    try {
+        const users = await User.find().populate('contractorProfile', 'name');
+        res.json(users);
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
 });
 
+// @route   PUT /api/admin/users/:id
+// @desc    Update user role
+// @access  Private, Admin
+router.put('/users/:id', [auth, admin], async (req, res) => {
+    try {
+        const { role } = req.body;
+        if (role !== 'admin' && role !== 'contractor') {
+            return res.status(400).json({ msg: 'Invalid role.' });
+        }
+        const user = await User.findByIdAndUpdate(req.params.id, { role }, { new: true });
+        res.json(user);
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+});
 
-// Add all other full-CRUD routes for Admin here (Projects, Users, Events, etc.)
-// Always protect them with [auth, admin]
+// @route   DELETE /api/admin/users/:id
+// @desc    Delete a user
+// @access  Private, Admin
+router.delete('/users/:id', [auth, admin], async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.json({ msg: 'User removed' });
+    } catch (err) {
+        res.status(500).send('Server Error');
+    }
+});
 
 module.exports = router;
