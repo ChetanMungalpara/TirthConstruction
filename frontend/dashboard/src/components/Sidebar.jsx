@@ -31,17 +31,17 @@ const Sidebar = ({ user, onLogout }) => {
         <div className="flex flex-col h-full w-64 bg-gray-800 text-white">
             {/* Logo */}
             <div className="flex items-center justify-center h-20 border-b border-gray-700">
-                <Link to="/">
+                <Link to="/dashboard">
                     <img src={Logo} alt="Tirth Construction" className="h-10" />
                 </Link>
             </div>
 
             {/* Navigation */}
             <nav className="flex-grow px-4 py-6 space-y-2">
-                <NavLink to="/" end className={navLinkClass}>
+                <NavLink to="/dashboard" end className={navLinkClass}>
                     <LayoutDashboard className="h-5 w-5 mr-3" /> Dashboard
                 </NavLink>
-                <NavLink to="/my-projects" className={navLinkClass}>
+                <NavLink to="/dashboard/my-projects" className={navLinkClass}>
                     <Briefcase className="h-5 w-5 mr-3" /> My Projects
                 </NavLink>
 
@@ -49,10 +49,10 @@ const Sidebar = ({ user, onLogout }) => {
                 {user.role === 'admin' && (
                     <>
                         <div className="pt-4 pb-2 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Admin Tools</div>
-                        <NavLink to="/manage/projects" className={navLinkClass}>
+                        <NavLink to="/dashboard/manage/projects" className={navLinkClass}>
                             <Briefcase className="h-5 w-5 mr-3" /> All Projects
                         </NavLink>
-                        <NavLink to="/manage/users" className={navLinkClass}>
+                        <NavLink to="/dashboard/manage/users" className={navLinkClass}>
                             <Users className="h-5 w-5 mr-3" /> Manage Users
                         </NavLink>
                     </>
@@ -63,10 +63,10 @@ const Sidebar = ({ user, onLogout }) => {
             <div className="p-4 border-t border-gray-700 relative" ref={dropdownRef}>
                 {dropdownOpen && (
                     <div className="absolute bottom-full mb-2 w-[calc(100%-2rem)] bg-gray-900 rounded-lg shadow-xl overflow-hidden animate-fade-in-up">
-                        <Link to="/profile/edit" onClick={() => setDropdownOpen(false)} className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700">
+                        <Link to="/dashboard/profile/edit" onClick={() => setDropdownOpen(false)} className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700">
                             <User className="h-4 w-4 mr-3" /> Edit Profile
                         </Link>
-                        <Link to="/settings/account" onClick={() => setDropdownOpen(false)} className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700">
+                        <Link to="/dashboard/settings/account" onClick={() => setDropdownOpen(false)} className="flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700">
                             <Settings className="h-4 w-4 mr-3" /> Account Settings
                         </Link>
                         <button onClick={onLogout} className="w-full flex items-center px-4 py-3 text-sm text-red-400 hover:bg-red-500 hover:text-white">

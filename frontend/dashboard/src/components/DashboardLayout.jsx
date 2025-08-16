@@ -26,7 +26,7 @@ const DashboardLayout = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        window.location.href = '/'; // Redirect to the main marketing site
+        window.location.href = '/';
     };
 
     if (loading) {
@@ -37,7 +37,6 @@ const DashboardLayout = () => {
         <div className="flex h-screen bg-gray-100">
             <Sidebar user={user} onLogout={handleLogout} />
             <main className="flex-1 p-8 overflow-y-auto">
-                {/* This now passes both the user data AND the function to update it */}
                 <Outlet context={{ user, setUser }} />
             </main>
         </div>

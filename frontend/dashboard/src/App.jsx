@@ -16,15 +16,19 @@ import AdminRoute from './components/AdminRoute';
 
 // Placeholder for the My Projects page
 const MyProjectsPage = () => <h1 className="text-3xl font-bold">My Projects</h1>;
-
+const NotFound = () => (
+  <div>
+    <h1 className="text-3xl font-bold">404 - Not Found</h1>
+    <p className="text-gray-600 mt-2">This page does not exist within the dashboard.</p>
+  </div>
+);
 
 function App() {
+
   return (
     <Routes>
-      {/* Public login route */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* All protected routes are nested inside the DashboardLayout */}
       <Route
         path="/"
         element={
@@ -38,14 +42,14 @@ function App() {
         <Route path="my-projects" element={<MyProjectsPage />} />
         <Route path="profile/edit" element={<EditProfilePage />} />
         <Route path="settings/account" element={<AccountSettingsPage />} />
-        
+
         {/* --- Admin-ONLY routes --- */}
         {/* The AdminRoute component protects all routes nested inside it */}
         <Route element={<AdminRoute />}>
           <Route path="manage/users" element={<ManageUsersPage />} />
           <Route path="manage/projects" element={<ManageProjectsPage />} />
         </Route>
-
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

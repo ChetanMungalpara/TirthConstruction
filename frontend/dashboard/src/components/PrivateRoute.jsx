@@ -10,21 +10,15 @@ const PrivateRoute = ({ children }) => {
         const urlToken = params.get('token');
 
         if (urlToken) {
-            // 1. A new token is found in the URL from the Google redirect.
             localStorage.setItem('token', urlToken);
             
-            // 2. IMPORTANT FIX: Force a full page reload.
-            // This clears the old application state and forces a fresh load
-            // of the DashboardLayout with the new, correct token.
-            window.location.href = '/dashboard.html'; 
+            navigate('/dashboard', { replace: true });
 
         } else if (!token) {
-            // 3. If no token exists at all, redirect to the login page.
-            navigate('/login', { replace: true });
+            navigate('/dashboard/login', { replace: true });
         }
     }, [token, navigate]);
 
-    // Render children if a token exists, otherwise render null while the redirect happens.
     return token ? children : null;
 };
 
