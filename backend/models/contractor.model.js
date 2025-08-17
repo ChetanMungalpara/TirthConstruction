@@ -13,8 +13,16 @@ const certificationSchema = new Schema({
 // --- NOW, USE THE SUB-SCHEMA IN THE MAIN SCHEMA ---
 const contractorSchema = new Schema({
     name: { type: String, required: true },
-    dpimageurl: { type: String, required: true },
-    fullimageurl: { type: String },
+    dpimageurl: { 
+        type: String, 
+        required: false, // Changed from true to false
+        default: 'https://placehold.co/400x400/EFEFEF/AAAAAA&text=No+Image' // Added default
+    },
+    fullimageurl: { 
+        type: String,
+        required: false, // Make this optional as well
+        default: 'https://placehold.co/600x800/EFEFEF/AAAAAA&text=No+Image' // Added default
+    },
     quotes: { type: String },
     description: { type: String },
     skills: [{ type: String }],

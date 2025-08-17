@@ -212,9 +212,9 @@ const AccountSettingsPage = () => {
             {message && <div className="mb-4 text-center text-green-800 bg-green-100 p-3 rounded-md">{message}</div>}
             {error && <div className="mb-4 text-center text-red-800 bg-red-100 p-3 rounded-md">{error}</div>}
 
-            <div className="space-y-8">
+            <div className="space-x-8 flex">
                 {/* General Info Card */}
-                <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="bg-white p-6 rounded-lg shadow-md w-full">
                     <h2 className="text-xl font-semibold mb-4 flex items-center"><UserCog className="mr-2" /> General Information</h2>
                     <form onSubmit={handleAccountSubmit} className="space-y-4">
                         <div>
@@ -244,7 +244,7 @@ const AccountSettingsPage = () => {
                 </div>
 
                 {/* Password Card - ALWAYS VISIBLE */}
-                <div className="bg-white p-6 rounded-lg shadow-md">
+                <div className="bg-white p-6 rounded-lg shadow-md w-full">
                     <h2 className="text-xl font-semibold mb-4 flex items-center"><ShieldCheck className="mr-2" /> Change Password</h2>
                     <form onSubmit={handlePasswordSubmit} className="space-y-4">
                         <div className="relative">
@@ -262,31 +262,31 @@ const AccountSettingsPage = () => {
                         <button type="submit" className="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition">Update Password</button>
                     </form>
                 </div>
-
-                {/* Connected Accounts Card */}
-                <div className="bg-white p-6 rounded-lg shadow-md">
-                    <h2 className="text-xl font-semibold mb-4 flex items-center"><Link className="mr-2" /> Connected Accounts</h2>
-                    <div className="flex items-center justify-between p-3 border rounded-md">
-                        <div className="flex items-center gap-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-8 w-8"><path fill="#FFC107" d="M43.611 20.083H42v-2.083H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" /><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" /><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.222 0-9.655-3.317-11.297-7.962l-6.522 5.025C9.505 39.556 16.227 44 24 44z" /><path fill="#1976D2" d="M43.611 20.083H42v-2.083H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.574l6.19 5.238C42.022 35.244 44 30.038 44 24c0-1.341-.138-2.65-.389-3.917z" /></svg>
-                            <span className="font-semibold">Google</span>
-                        </div>
-                        {user.googleId ? (
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-md">Connected</span>
-                                <button onClick={handleUnlinkGoogle} className="text-sm font-semibold text-red-600 hover:underline">Unlink</button>
-                            </div>
-                        ) : (
-                            <a href={googleLogin} className="px-3 py-2 bg-blue-500 text-white text-sm font-semibold rounded-md hover:bg-blue-600">
-                                Connect
-                            </a>
-                        )}
+            </div>
+            {/* Connected Accounts Card */}
+            <div className="bg-white p-6 rounded-lg shadow-md mt-8">
+                <h2 className="text-xl font-semibold mb-4 flex items-center"><Link className="mr-2" /> Connected Accounts</h2>
+                <div className="flex items-center justify-between p-3 border rounded-md">
+                    <div className="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="h-8 w-8"><path fill="#FFC107" d="M43.611 20.083H42v-2.083H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" /><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z" /><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.211 35.091 26.715 36 24 36c-5.222 0-9.655-3.317-11.297-7.962l-6.522 5.025C9.505 39.556 16.227 44 24 44z" /><path fill="#1976D2" d="M43.611 20.083H42v-2.083H24v8h11.303c-.792 2.237-2.231 4.166-4.087 5.574l6.19 5.238C42.022 35.244 44 30.038 44 24c0-1.341-.138-2.65-.389-3.917z" /></svg>
+                        <span className="font-semibold">Google</span>
                     </div>
-                    {!user.googleId && !user.password && (
-                        <p className="text-xs text-yellow-700 mt-2 p-2 bg-yellow-50 rounded-md flex items-center gap-2"><AlertTriangle size={14} />You have no password set. Please connect a Google account or set a password to secure your account.</p>
+                    {user.googleId ? (
+                        <div className="flex items-center gap-4">
+                            <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-md">Connected</span>
+                            <button onClick={handleUnlinkGoogle} className="text-sm font-semibold text-red-600 hover:underline">Unlink</button>
+                        </div>
+                    ) : (
+                        <a href={googleLogin} className="px-3 py-2 bg-blue-500 text-white text-sm font-semibold rounded-md hover:bg-blue-600">
+                            Connect
+                        </a>
                     )}
                 </div>
+                {!user.googleId && !user.password && (
+                    <p className="text-xs text-yellow-700 mt-2 p-2 bg-yellow-50 rounded-md flex items-center gap-2"><AlertTriangle size={14} />You have no password set. Please connect a Google account or set a password to secure your account.</p>
+                )}
             </div>
+
         </div>
     );
 };
