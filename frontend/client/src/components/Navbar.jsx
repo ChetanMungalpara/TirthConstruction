@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../assets/Logo.svg';
+import logo from '../assets/logo.svg';
 
 import Login from '../components/Login';
 

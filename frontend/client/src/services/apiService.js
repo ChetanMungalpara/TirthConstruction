@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:5000/api',
+    baseURL: 'https://tirthconstruction.onrender.com/api',
 });
 
 // This function runs before any request is sent
