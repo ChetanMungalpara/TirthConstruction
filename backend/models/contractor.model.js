@@ -1,27 +1,22 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// --- FIX: DEFINE THE SUB-SCHEMA FIRST ---
-// This schema defines the structure for a single certification object.
+// Define sub-schema first
 const certificationSchema = new Schema({
     name: { type: String },
     authority: { type: String },
     year: { type: Number },
 }, { _id: false });
 
-
-// --- NOW, USE THE SUB-SCHEMA IN THE MAIN SCHEMA ---
 const contractorSchema = new Schema({
     name: { type: String, required: true },
     dpimageurl: { 
         type: String, 
-        required: false, // Changed from true to false
-        default: 'https://placehold.co/400x400/EFEFEF/AAAAAA&text=No+Image' // Added default
+        default: 'https://placehold.co/400x400/EFEFEF/AAAAAA&text=No+Image' 
     },
     fullimageurl: { 
         type: String,
-        required: false, // Make this optional as well
-        default: 'https://placehold.co/600x800/EFEFEF/AAAAAA&text=No+Image' // Added default
+        default: 'https://placehold.co/600x800/EFEFEF/AAAAAA&text=No+Image' 
     },
     quotes: { type: String },
     description: { type: String },

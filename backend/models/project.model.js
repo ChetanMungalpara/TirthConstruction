@@ -21,27 +21,23 @@ const projectSchema = new Schema({
 
     typeId: { 
         type: Schema.Types.ObjectId, 
-        ref: 'TypeOfWork', // This MUST match the model name in typeOfWork.model.js
+        ref: 'TypeOfWork', // Corrected reference
         required: true 
     },
-
     statusId: { 
         type: Schema.Types.ObjectId, 
-        ref: 'Status', // This MUST match the model name in status.model.js
+        ref: 'Status', // Corrected reference
         required: true 
     },
+    contractorIds: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Contractor' // Corrected reference
+    }],
 
     description: { type: String, required: true },
     imgurl: { type: String, required: true },
     startdate: { type: Date },
     endDate: { type: Date },
-
-    // --- CHANGE #3: Use an array of ObjectIds and ref for Contractors ---
-    contractorIds: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Contractor' // This MUST match the model name in contractor.model.js
-    }],
-
     details: {
         client: { type: String },
         location: { type: String },

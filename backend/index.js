@@ -1,9 +1,7 @@
-
-
 const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
-const passport = require('passport'); // Import passport
+const passport = require('passport');
 require('dotenv').config();
 
 const app = express();
@@ -11,12 +9,12 @@ const app = express();
 // Connect Database
 connectDB();
 
-// Passport Config (must be after models are registered)
-require('./config/passport')(passport); // Pass passport to config
+// Passport Config
+require('./config/passport')(passport);
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // This replaces body-parser
 
 // Passport Middleware
 app.use(passport.initialize());
