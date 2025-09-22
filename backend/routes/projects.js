@@ -29,11 +29,10 @@ router.route('/:id').get((req, res) => {
 // @access  Private
 router.post('/add', [auth, admin], async (req, res) => {
     try {
-        delete req.body._id;
+        const projectData = req.body;
+        delete projectData._id; // Ensure _id is removed
 
-        const newProject = new Project({
-            ...req.body
-        });
+        const newProject = new Project(projectData);
         const project = await newProject.save();
         res.status(201).json(project);
     } catch (err) {

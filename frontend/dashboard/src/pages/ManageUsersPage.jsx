@@ -287,10 +287,17 @@ const ManageUsersPage = () => {
 
     const handleFormSubmit = async (userData) => {
         try {
+            const formData = new FormData();
+            Object.keys(userData).forEach(key => {
+                if (userData[key] !== null && userData[key] !== undefined) {
+                    formData.append(key, userData[key]);
+                }
+            });
+
             if (editingUser) {
-                await adminUpdateUser(editingUser._id, userData);
+                await adminUpdateUser(editingUser._id, formData);
             } else {
-                await adminCreateUser(userData);
+                await adminCreateUser(formData);
             }
             fetchUsers();
             setIsModalOpen(false);

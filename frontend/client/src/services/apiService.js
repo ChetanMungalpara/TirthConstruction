@@ -40,9 +40,14 @@ export const updateAccountDetails = (accountData) => apiClient.put('/user/accoun
 export const changePassword = (passwordData) => apiClient.put('/user/change-password', passwordData);
 export const adminGetAllUsers = () => apiClient.get('/admin/users');
 export const adminUpdateUserRole = (id, role) => apiClient.put(`/admin/users/${id}/role`, { role });
-export const adminUpdateUser = (id, userData) => apiClient.put(`/admin/users/${id}`, userData);
+export const adminUpdateUser = (id, userData) => apiClient.put(`/admin/users/${id}`, userData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+});
+
 export const adminDeleteUser = (id) => apiClient.delete(`/admin/users/${id}`);
-export const adminCreateUser = (userData) => apiClient.post('/admin/users', userData);
+export const adminCreateUser = (userData) => apiClient.post('/admin/users', userData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+});
 export const adminDeleteProject = (id) => apiClient.delete(`/projects/delete/${id}`);
 export const adminCreateProject = (projectData) => apiClient.post('/projects/add', projectData);
 export const uploadDisplayPicture = (formData) => apiClient.post('/contractor-dashboard/upload-dp', formData, {headers: {'Content-Type': 'multipart/form-data'}});
